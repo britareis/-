@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Симулятор Продюсера: Реальность Без Прикрас</title>
+  
+  <!-- Подключение внешнего CSS файла -->
+  <link rel="stylesheet" href="game_css.css">
+  
+</head>
+<body>
+  <div class="day-counter">
+    📅 День <span id="day-counter">1</span>
+  </div>
+
+  <div class="notification" id="notification"></div>
+
+  <!-- Модальное окно для событий -->
+  <div class="event-modal" id="event-modal">
+    <div class="event-content">
+      <div class="event-emoji" id="event-emoji">🎭</div>
+      <div class="event-title" id="event-title">Событие!</div>
+      <div class="event-description" id="event-description">Что-то произошло...</div>
+      <button class="btn" onclick="closeEventModal()">Понятно</button>
+    </div>
+  </div>
+
+  <header class="header">
+    <h1>🎬 ПРОДЮСЕР: Реальность Без Прикрас</h1>
+    <p class="subtitle">Добро пожаловать в мир, где каждое решение имеет цену</p>
+  </header>
+
+  <div class="main-container">
+    <!-- Панель состояния -->
+    <div class="panel">
+      <h2>💔 Твоя Реальность</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-label">💰 Деньги</div>
+          <div class="money-display" id="money">2 150₽</div>
+          <div class="reality-check">
+            До зарплаты ещё неделя...
+          </div>
+        </div>
+        
+        <div class="stat-item">
+          <div class="stat-label">🎯 Опыт</div>
+          <div class="xp-display" id="xp">0</div>
+          <div class="success-story" id="xp-text">
+            Каждый отказ — это опыт
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-label">🔥 Выгорание</div>
+          <div class="stat-bar">
+            <div id="burnout-bar" class="stat-fill burnout-fill"></div>
+          </div>
+          <div class="reality-check" id="burnout-text">
+            Ты только начинаешь, но уже чувствуешь давление...
+          </div>
+        </div>
+        
+        <div class="stat-item">
+          <div class="stat-label">🍕 Голод</div>
+          <div class="stat-bar">
+            <div id="hunger-bar" class="stat-fill hunger-fill"></div>
+          </div>
+          <div class="reality-check" id="hunger-text">
+            Опять дошик на ужин...
+          </div>
+        </div>
+        
+        <div class="stat-item">
+          <div class="stat-label">⚡ Энергия</div>
+          <div class="stat-bar">
+            <div id="energy-bar" class="stat-fill energy-fill"></div>
+          </div>
+          <div class="reality-check" id="energy-text">
+            Кофе уже не помогает как раньше
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-label">❤️ Здоровье</div>
+          <div class="stat-bar">
+            <div id="health-bar" class="stat-fill health-fill"></div>
+          </div>
+          <div class="health-story" id="health-text">
+            Пока держусь, но стоит следить за собой
+          </div>
+        </div>
+
+        <!-- Статус отношений -->
+        <div class="stat-item" id="relationship-status" style="display: none;">
+          <div class="stat-label">💕 Отношения</div>
+          <div class="relationship-status" id="relationship-text">
+            Одинок как волк...
+          </div>
+          <div class="relationship-meter" style="display: none;" id="relationship-meter">
+            <div style="font-size: 0.8rem; color: #aaa;">Уровень близости</div>
+            <div class="relationship-bar">
+              <div id="relationship-bar" class="relationship-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Центральная панель -->
+    <div class="panel">
+      <h2>🎯 Что будешь делать?</h2>
+      
+      <div class="reality-check" id="main-story">
+        Ты сидишь в маленькой комнате у родителей. В холодильнике пусто, на карте копейки. 
+        Но есть мечта — стать продюсером. Только вот реальность кусается...
+      </div>
+
+      <div class="actions-grid">
+        <button class="btn" onclick="searchClient()">
+          🔍 Искать клиентов<br>
+          <small>-энергия, +стресс</small>
+        </button>
+        
+        <button class="btn btn-work" onclick="doDelivery()">
+          🛵 Доставка<br>
+          <small>Заработать деньги</small>
+        </button>
+
+        <button class="btn btn-love" onclick="findLove()">
+          💕 Найти любовь<br>
+          <small>Может, не так одиноко?</small>
+        </button>
+
+        <button class="btn" onclick="restAndRecover()">
+          😴 Отдохнуть<br>
+          <small>Восстановить силы</small>
+        </button>
+
+        <button class="btn" onclick="showFoodMenu()">
+          🍜 Поесть<br>
+          <small>Выбрать что съесть</small>
+        </button>
+
+        <button class="btn" onclick="workout()">
+          💪 Спорт<br>
+          <small>Здоровье важно</small>
+        </button>
+
+        <button class="btn btn-health" onclick="goToUniversity()">
+          🎓 Универ<br>
+          <small>Получить знания</small>
+        </button>
+
+        <button class="btn btn-health" onclick="goToHospital()">
+          🏥 Больница<br>
+          <small>Проверить здоровье</small>
+        </button>
+      </div>
+
+      <div id="clients-section">
+        <h3 style="margin: 2rem 0 1rem 0; color: #fff;">📞 Потенциальные клиенты</h3>
+        <div id="clients"></div>
+      </div>
+    </div>
+
+    <!-- Правая панель -->
+    <div class="panels-container">
+      <!-- Панель магазина -->
+      <div class="panel">
+        <h2>🏪 Мечты и Покупки</h2>
+        
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="switchTab('housing')">🏠 Жильё</button>
+          <button class="tab-btn" onclick="switchTab('transport')">🚗 Транспорт</button>
+          <button class="tab-btn" onclick="switchTab('tech')">💻 Техника</button>
+          <button class="tab-btn" onclick="switchTab('lifestyle')">✨ Стиль</button>
+          <button class="tab-btn" onclick="switchTab('entertainment')">🔞 Развлечения</button>
+        </div>
+
+        <div class="scroll-area">
+          <!-- Вкладка жильё -->
+          <div class="tab-content active" id="housing-tab">
+            <div class="store-section">
+              <h3>🏠 Жильё</h3>
+              
+              <div class="store-item" data-item="room">
+                <h4>🚪 Комната в общаге</h4>
+                <div class="description">
+                  Хотя бы не дома у родителей. Свобода, пусть и в тесноте.
+                </div>
+                <div class="price">💸 20 000₽</div>
+                <button class="btn" onclick="buyItem('room')">Съехать наконец</button>
+              </div>
+
+              <div class="store-item" data-item="studio">
+                <h4>🏠 Студия на окраине</h4>
+                <div class="description">
+                  25 квадратов счастья. Своя кухня и санузел!
+                </div>
+                <div class="price">💸 45 000₽</div>
+                <button class="btn" onclick="buyItem('studio')">Арендовать</button>
+              </div>
+
+              <div class="store-item" data-item="apartment">
+                <h4>🏘️ Однушка в спальном районе</h4>
+                <div class="description">
+                  Настоящая взрослая жизнь. Можно даже гостей приглашать.
+                </div>
+                <div class="price">💸 80 000₽</div>
+                <button class="btn" onclick="buyItem('apartment')">Это мечта!</button>
+              </div>
+
+              <div class="store-item" data-item="penthouse">
+                <h4>🏙️ Пентхаус в центре</h4>
+                <div class="description">
+                  Панорамные окна, крыша города у ног. Успех!
+                </div>
+                <div class="price">💸 500 000₽</div>
+                <button class="btn" onclick="buyItem('penthouse')">Когда-нибудь...</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Вкладка транспорт -->
+          <div class="tab-content" id="transport-tab">
+            <div class="store-section">
+              <h3>🚗 Транспорт</h3>
+              
+              <div class="store-item" data-item="bicycle">
+                <h4>🚲 Велосипед</h4>
+                <div class="description">
+                  Экологично и полезно для здоровья. Главное - не украли.
+                </div>
+                <div class="price">💸 15 000₽</div>
+                <button class="btn" onclick="buyItem('bicycle')">Купить</button>
+              </div>
+
+              <div class="store-item" data-item="scooter">
+                <h4>🛵 Скутер</h4>
+                <div class="description">
+                  Быстрее пешком, но медленнее машины. Зато экономично!
+                </div>
+                <div class="price">💸 35 000₽</div>
+                <button class="btn" onclick="buyItem('scooter')">Купить</button>
+              </div>
+
+              <div class="store-item" data-item="car">
+                <h4>🚗 Подержанная машина</h4>
+                <div class="description">
+                  Может сломаться в любой момент, но это твоя машина!
+                </div>
+                <div class="price">💸 150 000₽</div>
+                <button class="btn" onclick="buyItem('car')">Купить</button>
+              </div>
+
+              <div class="store-item" data-item="newCar">
+                <h4>🚙 Новая машина</h4>
+                <div class="description">
+                  Статус, комфорт и надёжность. Мечты сбываются!
+                </div>
+                <div class="price">💸 800 000₽</div>
+                <button class="btn" onclick="buyItem('newCar')">Мечта!</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Остальные вкладки можно добавить аналогично -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Подключение JavaScript файла -->
+  <script src="complete_javascript.js"></script>
+  
+  <!-- Инициализация игры -->
+  <script>
+    // Запуск игры после загрузки страницы
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof initGame === 'function') {
+        initGame();
+      }
+    });
+  </script>
+</body>
+</html>
